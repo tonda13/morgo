@@ -1,0 +1,12 @@
+RewriteEngine on
+
+# custom variable for subdirectory
+# needed if application run from subdirectory
+# should be access from PHP through $_SERVER
+RewriteRule .* - [E=SUBDIR:]
+
+# redirect all requests to index.php into variable $q
+# except existing files or directories
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)$ %{ENV:SUBDIR}/?q=$1 [QSA,L]

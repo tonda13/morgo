@@ -20,7 +20,9 @@
         "relay/relay": "~2.0",
         "psr/http-server-handler": "^1.0@dev",
         "guzzlehttp/psr7": "^2.0@dev",
-        "morgo/dumpf": "dev-master"
+        "morgo/dumpf": "dev-master",
+        "middlewares/fast-route": "dev-master",
+        "middlewares/request-handler": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "^7",

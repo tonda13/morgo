@@ -9,7 +9,7 @@ use Psr\Http\Server\MiddlewareInterface;
 final class Test implements MiddlewareInterface {
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-        var_dump(self::class);
+//        var_dump(self::class);
         return $handler->handle($request);
     }
 }

@@ -8,6 +8,8 @@ return [
         '/rest/{version}/{controller}/{action}',
         [new AppRouter, 'route']
     ],
-    [['GET','POST'], '/admin/{controller}/{action}/[{id:\d+}]', [new AppRouter, 'route']],
+    [['GET','POST'], '/admin/{controller}/{action}[/{name:.+}]', [new AppRouter, 'route']],
+    [['GET','POST'], '/{controller}/{action}[/{id:\d+}[/{name}]]', [new AppRouter, 'route']],
     [['GET','POST'], '/{controller}/{action}', [new AppRouter, 'route']],
+    [['GET','POST'], '/{page}', [new AppRouter, 'singlePage']],
 ];

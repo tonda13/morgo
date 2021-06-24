@@ -33,6 +33,21 @@ final class AppRouter
 //            return new $controllerClassName($request);
 //        }
 //    }
+
+    public function singlePage(ServerRequestInterface $request) {
+        $controller = 'page';
+        $action = $request->getAttribute('page');
+        $arguments[] = $request->getAttribute('id');
+
+        $controllerClassName = __NAMESPACE__ . '\\Controller\\' . $controller;
+        if (class_exists($controllerClassName)) {
+            $controllerInstance = new $controllerClassName($request);
+            $methodName = str_replace(['-', '_', ' '], '', $action);
+            if (is_callable([$controllerInstance, $methodName])) {
+                return $controllerInstance->$methodName(...$arguments);
+            }
+        }
+    }
     
     public function route(ServerRequestInterface $request) {
         $controller = $request->getAttribute('controller');

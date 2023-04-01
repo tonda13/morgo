@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+USER=$([ -z "$1" ] && echo 'root' || echo $1)
+
+exec docker-compose exec -u $USER app bash -l

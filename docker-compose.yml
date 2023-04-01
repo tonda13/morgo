@@ -1,0 +1,24 @@
+version: '3.1'
+networks:
+  Morgo:
+    driver: bridge
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - Morgo
+    ports:
+      - 80:80
+    volumes:
+      - .:/var/www/html
+#  adminer:
+#    image: adminer
+#    restart: always
+#    ports:
+#      - 8080:8080
+#    volumes:
+#        - ./data/build/adminer/login-password-less.php:/var/www/html/plugins-enabled/login-password-less.php
+#    networks:
+#      - Morgo

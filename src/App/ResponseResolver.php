@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 final class ResponseResolver
 {
-    public function resolve(ResponseInterface $response) {
+    public function resolve(ResponseInterface $response): never {
         if (!$response->hasHeader('Content-Type')) {
             //TODO save default content type
         }

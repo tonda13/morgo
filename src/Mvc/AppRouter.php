@@ -4,59 +4,38 @@ declare(strict_types=1);
 namespace Morgo\Mvc;
 
 use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 final class AppRouter
 {
-//    public function route(ServerRequestInterface $request) {
-//        $controllerInstance = $this->getControllerInstance($request);
-//
-//        $action = $request->getAttribute('action');
-//        $methodName = str_replace(['-', '_', ' '], '', $action);
-//        if (is_callable([$controllerInstance, $methodName])) {
-//            return $controllerInstance->$methodName();
-//        }
-//    }
-//
-//    public function detail(ServerRequestInterface $request) {
-//
-//    }
-//
-//    public function create(ServerRequestInterface $request) {
-//
-//    }
-//
-//    private function getControllerInstance(ServerRequestInterface $request) : AbstractController {
-//        $controller = $request->getAttribute('controller');
-//        $controllerClassName = __NAMESPACE__ . '\\Controller\\' . $controller;
-//        if (class_exists($controllerClassName)) {
-//            return new $controllerClassName($request);
-//        }
-//    }
-
-    public function singlePage(ServerRequestInterface $request) {
+    public function singlePage(ServerRequestInterface $request): ResponseInterface {
         $controller = 'page';
         $action = $request->getAttribute('page');
         $arguments[] = $request->getAttribute('id');
 
-        $controllerClassName = __NAMESPACE__ . '\\Controller\\' . $controller;
+        $controllerClassName = __NAMESPACE__ . '\\Controller\\' . ucfirst($controller);
         if (class_exists($controllerClassName)) {
             $controllerInstance = new $controllerClassName($request);
             $methodName = str_replace(['-', '_', ' '], '', $action);
             if (is_callable([$controllerInstance, $methodName])) {
                 return $controllerInstance->$methodName(...$arguments);
+            } else {
+                // TODO return 404 because the method (action) does not exist
             }
+        } else {
+            // TODO return 404 because class (controller) does not exist
         }
     }
     
-    public function route(ServerRequestInterface $request) {
+    public function route(ServerRequestInterface $request): ResponseInterface {
         $controller = $request->getAttribute('controller');
         $action = $request->getAttribute('action');
         $arguments[] = $request->getAttribute('id');
 
-//        $responseBody = sprintf('Controller = %s, action = %s, ID = %s', $controller, $action, $id);
+        $responseBody = sprintf('Controller = %s, action = %s, ID = %s', $controller, $action, implode(', ', $arguments));
 
-        $controllerClassName = __NAMESPACE__ . '\\Controller\\' . $controller;
+        $controllerClassName = __NAMESPACE__ . '\\Controller\\' . ucfirst($controller);
         if (class_exists($controllerClassName)) {
             $controllerInstance = new $controllerClassName($request);
             $methodName = str_replace(['-', '_', ' '], '', $action);

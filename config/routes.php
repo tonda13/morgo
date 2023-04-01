@@ -10,6 +10,6 @@ return [
     ],
     [['GET','POST'], '/admin/{controller}/{action}[/{name:.+}]', [new AppRouter, 'route']],
     [['GET','POST'], '/{controller}/{action}[/{id:\d+}[/{name}]]', [new AppRouter, 'route']],
-    [['GET','POST'], '/{controller}/{action}', [new AppRouter, 'route']],
+//    [['GET','POST'], '/{controller}/{action}', [new AppRouter, 'route']],
     [['GET','POST'], '/{page}', [new AppRouter, 'singlePage']],
 ];

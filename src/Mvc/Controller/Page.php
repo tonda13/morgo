@@ -14,4 +14,8 @@ class Page extends AbstractController
         return $this->renderJson(['Hello' => 'Pierre']);
         //return $this->renderEmptyResponse();
     }
+
+    public function test(): ResponseInterface {
+        return $this->renderJson(['test']);
+    }
 }

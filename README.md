@@ -1,6 +1,6 @@
 # Morgo
 
-![Morgo logo](public/assets/images/logo.png)
+![Morgo logo](public/assets/images/favicon.png)
 
 PHP webová aplikace postavená na Slim 4 frameworku, běžící v Dockeru.
 

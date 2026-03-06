@@ -1,0 +1,107 @@
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Base */
+body {
+    font-family: system-ui, sans-serif;
+    background: #f3eeff;
+    color: #1a1a2e;
+}
+
+/* Header */
+header {
+    background: #1c0535;
+    padding: 0.75rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 12px rgba(106, 13, 173, 0.4);
+}
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    text-decoration: none;
+}
+
+.header-brand img {
+    height: 48px;
+    width: auto;
+}
+
+.header-brand span {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #e9d5ff;
+    letter-spacing: 0.03em;
+}
+
+/* Nav */
+nav {
+    display: flex;
+    gap: 1.5rem;
+}
+
+nav a {
+    color: #c084fc;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+nav a:hover { color: #e9d5ff; }
+
+/* Main */
+main {
+    max-width: 1100px;
+    margin: 2.5rem auto;
+    padding: 0 1.5rem;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 2rem;
+    color: #a78bca;
+    font-size: 0.85rem;
+    background: #1c0535;
+    margin-top: 4rem;
+}
+
+/* Hero */
+.hero {
+    text-align: center;
+    padding: 4rem 1rem;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #4a0082;
+    margin-bottom: 1rem;
+}
+
+.hero h1 span {
+    color: #9333ea;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    color: #6b21a8;
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.hero-badge {
+    display: inline-block;
+    margin-top: 2rem;
+    background: #9333ea;
+    color: #fff;
+    padding: 0.6rem 1.4rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}

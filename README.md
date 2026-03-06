@@ -1,5 +1,7 @@
 # Morgo
 
+![Morgo logo](public/assets/images/logo.png)
+
 PHP webová aplikace postavená na Slim 4 frameworku, běžící v Dockeru.
 
 ## Technologie

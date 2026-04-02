@@ -29,7 +29,7 @@ class AuthManager
         $ip = $this->getClientIp();
 
         if ($this->isLockedOut($email, $ip)) {
-            $this->logger->warning('Login blocked (lockout)', ['email' => $email, 'ip' => $ip]);
+            $this->logger->warning('Account locked out', ['email' => $email, 'ip' => $ip]);
             return false;
         }
 
@@ -37,7 +37,7 @@ class AuthManager
 
         if ($user === null || !password_verify($password, $user->password_hash)) {
             $this->recordFailedAttempt($email, $ip);
-            $this->logger->warning('Failed login', ['email' => $email, 'ip' => $ip]);
+            $this->logger->warning('Failed login attempt', ['email' => $email, 'ip' => $ip]);
             return false;
         }
 
@@ -62,7 +62,7 @@ class AuthManager
             $this->setRememberToken($user->id);
         }
 
-        $this->logger->info('User logged in', ['user_id' => $user->id, 'ip' => $ip]);
+        $this->logger->info('User logged in', ['user_id' => $user->id, 'email' => $email, 'ip' => $ip]);
         return true;
     }
 

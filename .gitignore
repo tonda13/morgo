@@ -8,7 +8,8 @@
 .env.*.local
 
 # Logy a cache
-/storage/logs/
+/storage/logs/*
+!/storage/logs/.gitkeep
 /storage/cache/
 /storage/coverage/
 

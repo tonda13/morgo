@@ -62,20 +62,15 @@ return function (ContainerBuilder $builder): void {
             return $capsule;
         }),
 
-        // PSR-3 Logger — Monolog
+        // PSR-3 Logger — MonologLogger wrapper
+        \Morgo\Infrastructure\Logging\MonologLogger::class => \DI\factory(function () {
+            $debug = ($_ENV['APP_DEBUG'] ?? 'false') === 'true';
+            return new \Morgo\Infrastructure\Logging\MonologLogger('morgocms', '', $debug);
+        }),
+
         LoggerInterface::class => \DI\factory(function () {
-            $logger  = new \Monolog\Logger('morgocms');
-            $level   = config('app.debug') ? \Monolog\Level::Debug : \Monolog\Level::Warning;
-            $logFile = BASE_PATH . '/storage/logs/app.log';
-
-            if (config('app.env') === 'production') {
-                $handler = new \Monolog\Handler\RotatingFileHandler($logFile, 30, $level);
-            } else {
-                $handler = new \Monolog\Handler\StreamHandler($logFile, $level);
-            }
-
-            $logger->pushHandler($handler);
-            return $logger;
+            $debug = ($_ENV['APP_DEBUG'] ?? 'false') === 'true';
+            return new \Morgo\Infrastructure\Logging\MonologLogger('morgocms', '', $debug);
         }),
 
         // Repository bindings (interface → implementace)

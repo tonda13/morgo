@@ -149,7 +149,11 @@ npm run build                     # Vite produkční build
 
 Viz `INSTRUCTION.md` — sekce "Přehled fází" a "Pořadí implementace (MVP)".
 
-**Dokončené fáze:** žádná — vývoj teprve začíná.
+**Dokončené fáze:**
+- [x] Fáze 16 — Custom fields + SEO meta tagy
+- [x] Fáze 17 — PHPUnit testy
+- [x] Fáze 18 — i18n API
+- [x] Fáze 19 — Logy a monitoring
 
 ---
 

@@ -95,5 +95,20 @@ return function (ContainerBuilder $builder): void {
 
         // Frontend controllers
         \Morgo\Http\Frontend\PageController::class => \DI\autowire(\Morgo\Http\Frontend\PageController::class),
+
+        // Plugin systém
+        \Morgo\Core\PluginLoader::class => \DI\autowire(\Morgo\Core\PluginLoader::class),
+
+        // CLI příkazy
+        \Morgo\Console\Commands\MigrateCommand::class        => \DI\autowire(),
+        \Morgo\Console\Commands\MigrateRollbackCommand::class => \DI\autowire(),
+        \Morgo\Console\Commands\MigrateStatusCommand::class  => \DI\autowire(),
+        \Morgo\Console\Commands\UserCreateCommand::class     => \DI\autowire(),
+        \Morgo\Console\Commands\ThemeListCommand::class      => \DI\autowire(),
+        \Morgo\Console\Commands\ThemeActivateCommand::class  => \DI\autowire(),
+        \Morgo\Console\Commands\PluginListCommand::class     => \DI\autowire(),
+        \Morgo\Console\Commands\PluginEnableCommand::class   => \DI\autowire(),
+        \Morgo\Console\Commands\PluginDisableCommand::class  => \DI\autowire(),
+        \Morgo\Console\Commands\CacheClearCommand::class     => \DI\create(),
     ]);
 };

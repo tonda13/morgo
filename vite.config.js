@@ -4,7 +4,7 @@ import { resolve } from 'path';
 export default defineConfig({
     publicDir: false,
     build: {
-        outDir: 'public/admin/dist',
+        outDir: 'public/build',
         emptyOutDir: true,
         manifest: true,
         rollupOptions: {

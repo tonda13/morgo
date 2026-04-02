@@ -19,6 +19,11 @@ use Psr\Log\LoggerInterface;
 
 return function (ContainerBuilder $builder): void {
     $builder->addDefinitions([
+        // PSR-17 Response Factory
+        \Psr\Http\Message\ResponseFactoryInterface::class => \DI\factory(function () {
+            return new \Slim\Psr7\Factory\ResponseFactory();
+        }),
+
         // HookManager — singleton
         HookManager::class => \DI\create(HookManager::class),
 

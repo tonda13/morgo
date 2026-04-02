@@ -10,7 +10,7 @@ $siteName = get_option('site_name', 'Morgo');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex,nofollow">
     <title>Přihlášení — <?= esc_html($siteName) ?></title>
-    <link rel="stylesheet" href="<?= esc_url(site_url('admin/dist/style.css')) ?>">
+    <link rel="stylesheet" href="<?= esc_url(site_url('build/style.css')) ?>">
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center">
     <div class="w-full max-w-md">

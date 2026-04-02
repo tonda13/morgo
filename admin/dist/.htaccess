@@ -1,0 +1,23 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Slim vyžaduje vypnutí MultiViews (zabraňuje interferenci Apache content negotiation)
+    Options -MultiViews
+
+    # Blokovat přístup k citlivým souborům
+    RewriteRule ^(vendor|app|config|database|storage|tests|lang|bin)/ - [F,L]
+    RewriteRule \.(env|git|md|json|lock|xml|yml|yaml)$ - [F,L]
+
+    # Přesměrovat vše na index.php (Slim front controller)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+# PHP konfigurace
+<IfModule mod_php.c>
+    php_flag display_errors Off
+    php_value upload_max_filesize 20M
+    php_value post_max_size 20M
+</IfModule>

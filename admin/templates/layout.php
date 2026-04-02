@@ -39,7 +39,7 @@ if (isset($contentTemplate) && file_exists($contentTemplate)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="<?= esc_attr(csrf_token()) ?>">
     <title><?= esc_html($pageTitle ?? 'Admin') ?> — <?= esc_html($siteName) ?></title>
-    <link rel="stylesheet" href="<?= esc_url(site_url('admin/dist/admin.css')) ?>">
+    <link rel="stylesheet" href="<?= esc_url(site_url('admin/dist/style.css')) ?>">
 </head>
 <body class="bg-gray-100 h-screen flex overflow-hidden">
 

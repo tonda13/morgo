@@ -1,0 +1,22 @@
+{
+  "admin/resources/css/admin.css": {
+    "file": "style.css",
+    "src": "admin/resources/css/admin.css",
+    "isEntry": true
+  },
+  "admin/resources/js/admin.js": {
+    "file": "admin.js",
+    "name": "admin",
+    "src": "admin/resources/js/admin.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "admin/resources/js/editor.js"
+    ]
+  },
+  "admin/resources/js/editor.js": {
+    "file": "editor.js",
+    "name": "editor",
+    "src": "admin/resources/js/editor.js",
+    "isDynamicEntry": true
+  }
+}

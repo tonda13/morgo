@@ -107,5 +107,10 @@ class Application
 
         // Method override (_method POST field pro DELETE/PUT)
         $this->app->add(new \Morgo\Http\Middleware\MethodOverrideMiddleware());
+
+        // Přesměrování na /install pokud aplikace není nainstalována (nejvnější vrstva)
+        $this->app->add(new \Morgo\Http\Middleware\InstallCheckMiddleware(
+            $this->app->getResponseFactory()
+        ));
     }
 }

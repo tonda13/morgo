@@ -18,7 +18,7 @@ $currentIndex = array_search($step, array_keys($steps), true);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instalace — Morgo CMS</title>
-    <link rel="stylesheet" href="<?= esc_url(site_url('admin/dist/admin.css')) ?>">
+    <link rel="stylesheet" href="<?= esc_url(site_url('admin/dist/style.css')) ?>">
 </head>
 <body class="bg-gray-50 min-h-screen">
     <div class="max-w-2xl mx-auto py-12 px-4">

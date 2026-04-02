@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vybrat médium</title>
-    <link rel="stylesheet" href="<?= esc_url(site_url('admin/dist/admin.css')) ?>">
+    <link rel="stylesheet" href="<?= esc_url(site_url('admin/dist/style.css')) ?>">
 </head>
 <body class="bg-gray-50">
     <div class="p-4">

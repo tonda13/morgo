@@ -153,6 +153,21 @@ $statuses = [
                         </select>
                     </div>
                 </div>
+
+                <!-- Custom Fields (pouze edit mode) -->
+                <?php if (isset($page)): ?>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-sm font-medium text-gray-700">Custom Fields</h3>
+                    </div>
+                    <div class="card-body">
+                        <a href="<?= esc_url(admin_url("pages/{$page->id}/fields")) ?>"
+                           class="text-sm text-blue-600 hover:underline">
+                            Spravovat custom fields →
+                        </a>
+                    </div>
+                </div>
+                <?php endif ?>
             </div>
         </div>
     </form>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo esc_html(get_the_title() ? get_the_title() . ' — ' . sp_bloginfo('name') : sp_bloginfo('name')); ?></title>
+    <?php the_seo_tags(); ?>
     <?php sp_head(); ?>
 </head>
 <body>

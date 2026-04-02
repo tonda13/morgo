@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Morgo\Http\Admin\AuthController;
+use Morgo\Http\Admin\CustomFieldController;
 use Morgo\Http\Admin\DashboardController;
 use Morgo\Http\Admin\PageController;
 use Morgo\Http\Admin\MediaController;
@@ -45,6 +46,11 @@ return function (App $app): void {
         $group->post('/pages/{id:[0-9]+}', [PageController::class, 'update']);
         $group->post('/pages/{id:[0-9]+}/delete', [PageController::class, 'destroy']);
         $group->post('/pages/draft', [PageController::class, 'draft']);
+
+        // Custom fields
+        $group->get('/pages/{id:[0-9]+}/fields', [CustomFieldController::class, 'index']);
+        $group->post('/pages/{id:[0-9]+}/fields', [CustomFieldController::class, 'store']);
+        $group->post('/pages/{id:[0-9]+}/fields/{fieldId:[0-9]+}/delete', [CustomFieldController::class, 'destroy']);
 
         // Média
         $group->get('/media', [MediaController::class, 'index']);

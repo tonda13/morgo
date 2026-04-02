@@ -36,7 +36,8 @@
             "app/Core/Helpers/template.php",
             "app/Core/Helpers/i18n.php",
             "app/Core/Helpers/security.php",
-            "app/Core/Helpers/assets.php"
+            "app/Core/Helpers/assets.php",
+            "app/Core/Helpers/seo.php"
         ]
     },
     "autoload-dev": {

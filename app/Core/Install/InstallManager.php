@@ -95,6 +95,51 @@ PHP;
         file_put_contents(BASE_PATH . '/.env', $envContent);
     }
 
+    public function seedDefaultContent(int $adminUserId, string $siteName): void
+    {
+        $now = date('Y-m-d H:i:s');
+
+        $welcomeContent = json_encode([
+            'time'    => time() * 1000,
+            'version' => '2.26.5',
+            'blocks'  => [
+                [
+                    'type' => 'header',
+                    'data' => ['text' => 'Vítejte v ' . $siteName . '!', 'level' => 2],
+                ],
+                [
+                    'type' => 'paragraph',
+                    'data' => ['text' => 'Instalace proběhla úspěšně. Tato stránka byla vytvořena automaticky — můžete ji upravit nebo smazat v administraci.'],
+                ],
+                [
+                    'type' => 'paragraph',
+                    'data' => ['text' => '<a href="/admin">Přejít do administrace →</a>'],
+                ],
+            ],
+        ], JSON_UNESCAPED_UNICODE);
+
+        // Vytvoř úvodní stránku pouze pokud ještě neexistuje
+        $exists = $this->capsule->table('pages')->where('slug', 'home')->exists();
+        if (!$exists) {
+            $this->capsule->table('pages')->insert([
+                'title'          => 'Vítejte',
+                'slug'           => 'home',
+                'content_blocks' => $welcomeContent,
+                'status'         => 'published',
+                'created_by'     => $adminUserId,
+                'menu_order'     => 0,
+                'created_at'     => $now,
+                'updated_at'     => $now,
+            ]);
+        }
+
+        // Nastav tuto stránku jako homepage
+        $this->capsule->table('options')->updateOrInsert(
+            ['option_key' => 'homepage_slug'],
+            ['option_value' => 'home']
+        );
+    }
+
     public function isInstalled(): bool
     {
         return file_exists(BASE_PATH . '/config/installed.php');

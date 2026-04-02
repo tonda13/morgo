@@ -15,11 +15,13 @@ class PageController
         private readonly PageRepositoryInterface $pages,
         private readonly ThemeEngine $themeEngine,
     ) {
+        $this->themeEngine->load();
     }
 
     public function home(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $page = $this->pages->findBySlug('/');
+        $homeSlug = get_option('homepage_slug', 'home');
+        $page     = $this->pages->findBySlug($homeSlug);
 
         global $morgoPage;
         $morgoPage = $page;

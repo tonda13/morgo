@@ -146,6 +146,7 @@ class InstallController
             );
 
             $this->installManager->saveOptions($siteName, $siteUrl, $admin['email']);
+            $this->installManager->seedDefaultContent($adminId, $siteName);
             $this->installManager->writeConfigFile($dbConfig, $siteUrl);
 
             $_SESSION['install_done'] = true;

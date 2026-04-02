@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM php:8.4-apache
 
 # Systémové závislosti
 RUN apt-get update && apt-get install -y \
@@ -27,8 +27,14 @@ RUN docker-php-ext-install \
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
 
+# Apache moduly
+RUN a2enmod rewrite headers
+
 # Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Apache vhost — document root na public/
+COPY docker/apache/vhost.conf /etc/apache2/sites-available/000-default.conf
 
 # Pracovní adresář
 WORKDIR /var/www/html
@@ -36,5 +42,5 @@ WORKDIR /var/www/html
 # Oprávnění
 RUN chown -R www-data:www-data /var/www/html
 
-EXPOSE 9000
-CMD ["php-fpm"]
+EXPOSE 80
+CMD ["apache2-foreground"]

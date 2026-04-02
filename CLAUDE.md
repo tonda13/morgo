@@ -16,7 +16,7 @@
 
 | Vrstva | Technologie |
 |--------|-------------|
-| Backend | PHP 8.2, Slim 4 |
+| Backend | PHP 8.4, Slim 4 |
 | DI | PHP-DI 7 (autowiring) |
 | ORM | Eloquent (illuminate/database 10) |
 | Admin CSS | Tailwind CSS via Vite |
@@ -134,7 +134,7 @@ Vždy: `admin/dist/`, `composer.lock`, `package-lock.json`
 ## Příkazy
 
 ```bash
-docker-compose up -d              # Dev prostředí (web: :8080, phpMyAdmin: :8081)
+docker-compose up -d              # Dev prostředí (web: :80, Adminer: :8080)
 php bin/sp install                # Interaktivní instalace
 php bin/sp migrate                # Spustit migrace
 php bin/sp migrate:status         # Stav migrací

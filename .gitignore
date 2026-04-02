@@ -1,0 +1,35 @@
+# Závislosti
+/vendor/
+/node_modules/
+
+# Prostředí
+.env
+.env.local
+.env.*.local
+
+# Logy a cache
+/storage/logs/
+/storage/cache/
+/storage/coverage/
+
+# Nahrané soubory (lokální dev)
+/content/uploads/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PHP
+*.cache
+
+# Instalační stav (generovaný)
+# config/app.php se commituje jako .example, skutečný se negeneruje do gitu
+# pokud je projekt nainstalovaný lokálně
+
+# admin/dist/ se COMMITUJE (Vite output)

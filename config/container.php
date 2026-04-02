@@ -9,9 +9,12 @@ use Morgo\Core\I18n;
 use Morgo\Domain\Page\PageRepositoryInterface;
 use Morgo\Domain\User\UserRepositoryInterface;
 use Morgo\Domain\Media\MediaRepositoryInterface;
+use Morgo\Domain\Menu\MenuRepositoryInterface;
 use Morgo\Infrastructure\Persistence\EloquentPageRepository;
 use Morgo\Infrastructure\Persistence\EloquentUserRepository;
 use Morgo\Infrastructure\Persistence\EloquentMediaRepository;
+use Morgo\Infrastructure\Persistence\EloquentMenuRepository;
+use Morgo\Infrastructure\Storage\LocalMediaStorage;
 use Psr\Log\LoggerInterface;
 
 return function (ContainerBuilder $builder): void {
@@ -79,6 +82,10 @@ return function (ContainerBuilder $builder): void {
         PageRepositoryInterface::class  => \DI\autowire(EloquentPageRepository::class),
         UserRepositoryInterface::class  => \DI\autowire(EloquentUserRepository::class),
         MediaRepositoryInterface::class => \DI\autowire(EloquentMediaRepository::class),
+        MenuRepositoryInterface::class  => \DI\autowire(EloquentMenuRepository::class),
+
+        // Storage
+        LocalMediaStorage::class => \DI\create(LocalMediaStorage::class),
 
         // BlockRenderer
         \Morgo\Services\BlockRenderer::class => \DI\autowire(\Morgo\Services\BlockRenderer::class),

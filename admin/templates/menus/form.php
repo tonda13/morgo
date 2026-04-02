@@ -74,25 +74,89 @@ $existingItems = $isEdit ? json_encode(array_map(fn($i) => ['label' => $i->label
     </form>
 </div>
 
+<style>
+.menu-item { cursor: grab; transition: opacity .15s, box-shadow .15s; }
+.menu-item.dragging { opacity: .4; cursor: grabbing; }
+.menu-item.drag-over { box-shadow: 0 -2px 0 0 #2563eb; }
+</style>
+
 <script>
 let items = <?= $existingItems ?>;
+let dragSrcIndex = null;
+
+function syncJson() {
+    document.getElementById('items-json').value = JSON.stringify(items);
+}
 
 function renderItems() {
     const container = document.getElementById('menu-items');
     container.innerHTML = '';
+
+    if (items.length === 0) {
+        container.innerHTML = '<p class="text-sm text-gray-400 py-2">Zatím žádné položky. Přidejte stránku nebo vlastní odkaz.</p>';
+        syncJson();
+        return;
+    }
+
     items.forEach((item, i) => {
         const div = document.createElement('div');
-        div.className = 'flex items-center gap-2 p-2 bg-gray-50 rounded border border-gray-200';
+        div.className = 'menu-item flex items-center gap-2 p-2 bg-gray-50 rounded border border-gray-200 select-none';
+        div.draggable = true;
+        div.dataset.index = i;
+
         div.innerHTML = `
-            <span class="flex-1 text-sm font-medium">${item.label}</span>
-            <span class="text-xs text-gray-400">${item.url || ''}</span>
-            <button type="button" onclick="removeItem(${i})" class="text-red-500 text-xs hover:text-red-700">&#x2715;</button>`;
+            <span class="text-gray-400 cursor-grab mr-1" title="Přetáhnout">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                    <circle cx="4" cy="3" r="1.2"/><circle cx="10" cy="3" r="1.2"/>
+                    <circle cx="4" cy="7" r="1.2"/><circle cx="10" cy="7" r="1.2"/>
+                    <circle cx="4" cy="11" r="1.2"/><circle cx="10" cy="11" r="1.2"/>
+                </svg>
+            </span>
+            <span class="flex-1 text-sm font-medium">${escHtml(item.label)}</span>
+            <span class="text-xs text-gray-400">${escHtml(item.url || '')}</span>
+            <button type="button" data-remove="${i}" class="text-red-500 text-xs hover:text-red-700 ml-2 px-1">&#x2715;</button>`;
+
+        // Drag events
+        div.addEventListener('dragstart', e => {
+            dragSrcIndex = i;
+            div.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        });
+        div.addEventListener('dragend', () => {
+            document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('dragging', 'drag-over'));
+        });
+        div.addEventListener('dragover', e => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('drag-over'));
+            if (parseInt(div.dataset.index) !== dragSrcIndex) div.classList.add('drag-over');
+        });
+        div.addEventListener('dragleave', () => div.classList.remove('drag-over'));
+        div.addEventListener('drop', e => {
+            e.preventDefault();
+            const destIndex = parseInt(div.dataset.index);
+            if (dragSrcIndex !== null && dragSrcIndex !== destIndex) {
+                const moved = items.splice(dragSrcIndex, 1)[0];
+                items.splice(destIndex, 0, moved);
+                renderItems();
+            }
+        });
+
+        // Smazat
+        div.querySelector('[data-remove]').addEventListener('click', () => {
+            items.splice(i, 1);
+            renderItems();
+        });
+
         container.appendChild(div);
     });
-    document.getElementById('items-json').value = JSON.stringify(items);
+
+    syncJson();
 }
 
-function removeItem(index) { items.splice(index, 1); renderItems(); }
+function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
 
 document.getElementById('add-page-btn').addEventListener('click', () => {
     const sel = document.getElementById('add-page');
@@ -107,14 +171,12 @@ document.getElementById('add-custom-btn').addEventListener('click', () => {
     const label = prompt('Název odkazu:');
     if (!label) return;
     const url = prompt('URL (např. https://... nebo /stranka):');
-    if (!url) return;
+    if (url === null) return;
     items.push({ label, url, page_id: null, parent_id: null });
     renderItems();
 });
 
-document.getElementById('menu-form').addEventListener('submit', () => {
-    document.getElementById('items-json').value = JSON.stringify(items);
-});
+document.getElementById('menu-form').addEventListener('submit', syncJson);
 
 renderItems();
 </script>

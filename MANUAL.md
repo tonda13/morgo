@@ -100,7 +100,7 @@ V bloku obrázku klikněte na tlačítko **Vybrat z médií** — otevře se Med
 
 - **Slug (URL):** krátký identifikátor stránky v adrese (automaticky generován z titulku, lze upravit)
 - **Nadřazená stránka:** hierarchické zařazení stránky
-- **Pořadí v menu:** číslo určující pořadí při výpisu
+- **Pořadí v menu:** číslo pro řazení stránek při programatickém výpisu (ORDER BY menu_order). Používá se v šablonách tématu při volání `findAll()` nebo iteraci podstránek — **nesouvisí s navigačními menu** vytvořenými přes Admin → Menu, která mají vlastní pořadí položek nastavitelné přetahováním.
 - **Šablona:** pojmenovaná šablona tématu (pokud je dostupná)
 
 ### Stavy stránky

@@ -51,9 +51,11 @@ class Application
         $routeDefinitions = require BASE_PATH . '/config/routes.php';
         $routeDefinitions($this->app);
 
+        // Načíst téma (functions.php) — nutné pro registraci nav menu lokací, CSS/JS, hook init
+        $container->get(ThemeEngine::class)->load();
+
         // Registrovat menu renderer
         $this->registerMenuRenderer($container);
-
 
         // Spustit hook app.boot
         sp_do_action('app.boot', $this->app);

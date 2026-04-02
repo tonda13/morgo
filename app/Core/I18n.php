@@ -44,6 +44,11 @@ class I18n
         return $this->translations[$domain][$string] ?? $string;
     }
 
+    public function translateFormat(string $text, string $domain = 'morgocms', mixed ...$args): string
+    {
+        return sprintf($this->translate($text, $domain), ...$args);
+    }
+
     public function translatePlural(string $singular, string $plural, int $count, string $domain = 'morgocms'): string
     {
         $key   = $singular . '|' . $plural;

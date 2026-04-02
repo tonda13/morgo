@@ -79,5 +79,8 @@ return function (ContainerBuilder $builder): void {
         PageRepositoryInterface::class  => \DI\autowire(EloquentPageRepository::class),
         UserRepositoryInterface::class  => \DI\autowire(EloquentUserRepository::class),
         MediaRepositoryInterface::class => \DI\autowire(EloquentMediaRepository::class),
+
+        // BlockRenderer
+        \Morgo\Services\BlockRenderer::class => \DI\autowire(\Morgo\Services\BlockRenderer::class),
     ]);
 };

@@ -38,6 +38,12 @@ $statuses = [
             <input type="hidden" name="_method" value="POST">
         <?php endif ?>
         <input type="hidden" name="content_blocks" id="content_blocks" value="<?= esc_attr($page->content_blocks ?? '') ?>">
+        <script id="editor-initial-data" type="application/json">
+        <?= $page ? $page->content_blocks ?? '{}' : '{}' ?>
+        </script>
+        <?php if ($page): ?>
+        <span id="page-id-holder" data-page-id="<?= (int) $page->id ?>" hidden></span>
+        <?php endif ?>
 
         <div class="grid grid-cols-3 gap-6">
             <!-- Hlavní obsah -->

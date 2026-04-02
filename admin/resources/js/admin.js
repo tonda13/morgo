@@ -87,3 +87,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+// Editor inicializace — načte se jen na stránce s editorem
+if (document.getElementById('editorjs')) {
+    import('./editor.js').then(({ initEditor }) => {
+        const initialDataEl = document.getElementById('editor-initial-data');
+        const initialData   = initialDataEl ? JSON.parse(initialDataEl.textContent || '{}') : {};
+        const pageId        = document.getElementById('page-id-holder')?.dataset.pageId || null;
+        initEditor('editorjs', initialData, pageId ? parseInt(pageId) : null);
+    });
+}

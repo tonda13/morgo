@@ -51,6 +51,10 @@ class Application
         $routeDefinitions = require BASE_PATH . '/config/routes.php';
         $routeDefinitions($this->app);
 
+        // Registrovat menu renderer
+        $this->registerMenuRenderer($container);
+
+
         // Spustit hook app.boot
         sp_do_action('app.boot', $this->app);
 
@@ -97,6 +101,71 @@ class Application
             $errorMiddleware->setDefaultErrorHandler(
                 new \Morgo\Http\Middleware\ErrorHandler($this->app->getCallableResolver(), $this->app->getResponseFactory())
             );
+        }
+    }
+
+    private function registerMenuRenderer(\DI\Container $container): void
+    {
+        $capsule = $container->get(\Illuminate\Database\Capsule\Manager::class);
+
+        // Pro každou registrovanou lokaci zaregistruj filter který načte menu dle slugu
+        sp_add_filter('render_menu', function (string $html, int $menuId, $capsule): string {
+            $items = $capsule->table('menu_items')
+                ->where('menu_id', $menuId)
+                ->whereNull('parent_id')
+                ->orderBy('menu_order')
+                ->get();
+
+            if ($items->isEmpty()) {
+                return $html;
+            }
+
+            $out = '<ul class="nav-menu">';
+            foreach ($items as $item) {
+                $url   = $item->url ?: ($item->page_id
+                    ? site_url($capsule->table('pages')->where('id', $item->page_id)->value('slug') ?? '#')
+                    : '#');
+                $label = htmlspecialchars($item->label, ENT_QUOTES);
+
+                // Podpoložky
+                $children = $capsule->table('menu_items')
+                    ->where('menu_id', $menuId)
+                    ->where('parent_id', $item->id)
+                    ->orderBy('menu_order')
+                    ->get();
+
+                $out .= '<li class="nav-item">';
+                $out .= '<a href="' . esc_url($url) . '">' . $label . '</a>';
+
+                if ($children->isNotEmpty()) {
+                    $out .= '<ul class="sub-menu">';
+                    foreach ($children as $child) {
+                        $childUrl   = $child->url ?: ($child->page_id
+                            ? site_url($capsule->table('pages')->where('id', $child->page_id)->value('slug') ?? '#')
+                            : '#');
+                        $childLabel = htmlspecialchars($child->label, ENT_QUOTES);
+                        $out .= '<li class="nav-item"><a href="' . esc_url($childUrl) . '">' . $childLabel . '</a></li>';
+                    }
+                    $out .= '</ul>';
+                }
+
+                $out .= '</li>';
+            }
+            $out .= '</ul>';
+
+            return $out;
+        }, 10, 2);
+
+        // Zaregistruj filter pro každou lokaci — načte menu dle option menu_location_{location}
+        $registeredLocations = ['primary', 'footer'];
+        foreach ($registeredLocations as $location) {
+            sp_add_filter('render_menu_' . $location, function (string $html) use ($capsule, $location): string {
+                $menuId = (int) get_option('menu_location_' . $location, 0);
+                if ($menuId <= 0) {
+                    return $html;
+                }
+                return sp_apply_filters('render_menu', $html, $menuId, $capsule);
+            });
         }
     }
 

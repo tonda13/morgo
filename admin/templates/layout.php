@@ -20,7 +20,13 @@ $currentPath = $_SERVER['REQUEST_URI'] ?? '';
 
 function admin_nav_active(string $path): string {
     global $currentPath, $adminPrefix;
-    return str_contains($currentPath, "/{$adminPrefix}/{$path}") ? 'bg-primary-700 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white';
+    $clean = strtok($currentPath, '?');  // odstraň query string
+    if ($path === '') {
+        // Dashboard — přesná shoda s /admin nebo /admin/
+        return rtrim($clean, '/') === "/{$adminPrefix}" ? 'bg-primary-700 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white';
+    }
+    // Ostatní — začíná /admin/{path}
+    return str_starts_with($clean, "/{$adminPrefix}/{$path}") ? 'bg-primary-700 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white';
 }
 
 // Content šablona se renderuje uvnitř layout.php
@@ -55,7 +61,7 @@ if (isset($contentTemplate) && file_exists($contentTemplate)) {
 
         <!-- Navigace -->
         <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-            <a href="/<?= esc_attr($adminPrefix) ?>" class="flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors <?= admin_nav_active('') && !str_contains($currentPath, '/pages') && !str_contains($currentPath, '/media') ? 'bg-primary-700 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' ?>">
+            <a href="/<?= esc_attr($adminPrefix) ?>" class="flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors <?= admin_nav_active('') ?>">
                 <svg class="mr-3 h-5 w-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18"/></svg>
                 Přehled
             </a>

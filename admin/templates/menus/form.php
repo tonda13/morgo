@@ -49,6 +49,27 @@ $existingItems = $isEdit ? json_encode(array_map(fn($i) => ['label' => $i->label
             </div>
         </div>
 
+        <?php
+        $navMenus = $GLOBALS['_morgo_nav_menus'] ?? [];
+        if ($isEdit && !empty($navMenus)):
+        ?>
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3 class="text-sm font-medium">Umístění v tématu</h3>
+            </div>
+            <div class="card-body space-y-2">
+                <?php foreach ($navMenus as $locationSlug => $locationLabel): ?>
+                    <?php $assigned = (int) get_option('menu_location_' . $locationSlug, 0); ?>
+                    <label class="flex items-center gap-3">
+                        <input type="checkbox" name="locations[]" value="<?= esc_attr($locationSlug) ?>"
+                               <?= $assigned === $menu->id ? 'checked' : '' ?> class="rounded">
+                        <span class="text-sm text-gray-700"><?= esc_html($locationLabel) ?></span>
+                    </label>
+                <?php endforeach ?>
+            </div>
+        </div>
+        <?php endif ?>
+
         <button type="submit" class="btn-primary">Uložit menu</button>
     </form>
 </div>

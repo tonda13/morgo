@@ -75,6 +75,18 @@ class MenuController
         $this->menus->save($menu);
         $items = json_decode($body['items'] ?? '[]', true) ?: [];
         $this->menus->saveItems($menu->id, $items);
+
+        // Uložit přiřazení lokací
+        $allLocations = array_keys($GLOBALS['_morgo_nav_menus'] ?? []);
+        $selectedLocations = (array) ($body['locations'] ?? []);
+        foreach ($allLocations as $locationSlug) {
+            if (in_array($locationSlug, $selectedLocations, true)) {
+                update_option('menu_location_' . $locationSlug, (string) $menu->id);
+            } elseif ((int) get_option('menu_location_' . $locationSlug, 0) === $menu->id) {
+                update_option('menu_location_' . $locationSlug, '0');
+            }
+        }
+
         Flash::success('Menu bylo uloženo.');
         return $response->withHeader('Location', admin_url("menus/{$menu->id}/edit"))->withStatus(302);
     }

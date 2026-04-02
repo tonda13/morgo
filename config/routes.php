@@ -21,11 +21,13 @@ use Slim\Routing\RouteCollectorProxy;
 
 return function (App $app): void {
     // Instalační wizard (dostupný pouze pokud není nainstalováno)
+    // test-db musí být mimo skupinu — FastRoute neumožňuje statické routy po variabilních
+    $app->post('/install/test-db', [\Morgo\Http\Install\InstallController::class, 'testDb']);
+
     $app->group('/install', function (RouteCollectorProxy $group) {
         $group->get('[/]', [\Morgo\Http\Install\InstallController::class, 'index']);
         $group->get('/{step}', [\Morgo\Http\Install\InstallController::class, 'step']);
         $group->post('/{step}', [\Morgo\Http\Install\InstallController::class, 'process']);
-        $group->post('/test-db', [\Morgo\Http\Install\InstallController::class, 'testDb']);
     });
 
     // Admin — přihlašování (bez AuthMiddleware)

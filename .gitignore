@@ -10,11 +10,15 @@
 # Logy a cache
 /storage/logs/*
 !/storage/logs/.gitkeep
-/storage/cache/
+/storage/cache/*
+!/storage/cache/di/
+/storage/cache/di/*
+!/storage/cache/di/.gitkeep
 /storage/coverage/
 
 # Nahrané soubory (lokální dev)
-/content/uploads/
+/content/uploads/*
+!/content/uploads/.gitkeep
 
 # IDE
 .idea/

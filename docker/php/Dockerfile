@@ -39,8 +39,8 @@ COPY docker/apache/vhost.conf /etc/apache2/sites-available/000-default.conf
 # Pracovní adresář
 WORKDIR /var/www/html
 
-# Oprávnění
-RUN chown -R www-data:www-data /var/www/html
+# Oprávnění pro WORKDIR (volumes se připojí až za běhu — viz docker-compose entrypoint)
+RUN chown www-data:www-data /var/www/html
 
 EXPOSE 80
 CMD ["apache2-foreground"]

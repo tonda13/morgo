@@ -82,5 +82,11 @@ return function (ContainerBuilder $builder): void {
 
         // BlockRenderer
         \Morgo\Services\BlockRenderer::class => \DI\autowire(\Morgo\Services\BlockRenderer::class),
+
+        // ThemeEngine
+        \Morgo\Core\ThemeEngine::class => \DI\create(\Morgo\Core\ThemeEngine::class),
+
+        // Frontend controllers
+        \Morgo\Http\Frontend\PageController::class => \DI\autowire(\Morgo\Http\Frontend\PageController::class),
     ]);
 };

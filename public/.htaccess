@@ -2,11 +2,14 @@
     RewriteEngine On
     RewriteBase /
 
+    # Slim vyžaduje vypnutí MultiViews (zabraňuje interferenci Apache content negotiation)
+    Options -MultiViews
+
     # Blokovat přístup k citlivým souborům
     RewriteRule ^(vendor|app|config|database|storage|tests|lang|bin)/ - [F,L]
     RewriteRule \.(env|git|md|json|lock|xml|yml|yaml)$ - [F,L]
 
-    # Přesměrovat vše na index.php
+    # Přesměrovat vše na index.php (Slim front controller)
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^ index.php [QSA,L]

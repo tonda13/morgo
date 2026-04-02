@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  php:
+    build:
+      context: ./docker/php
+    container_name: morgocms_php
+    volumes:
+      - .:/var/www/html
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/custom.ini
+    depends_on:
+      - mysql
+    networks:
+      - morgocms
+
+  nginx:
+    image: nginx:alpine
+    container_name: morgocms_nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+    networks:
+      - morgocms
+
+  mysql:
+    image: mysql:8.0
+    container_name: morgocms_mysql
+    environment:
+      MYSQL_DATABASE: morgocms
+      MYSQL_USER: morgocms
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - morgocms
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: morgocms_phpmyadmin
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: morgocms
+      PMA_PASSWORD: secret
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+    networks:
+      - morgocms
+
+volumes:
+  mysql_data:
+
+networks:
+  morgocms:
+    driver: bridge

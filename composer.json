@@ -1,0 +1,59 @@
+{
+    "name": "morgo/morgocms",
+    "description": "A lightweight CMS framework inspired by WordPress, built on modern PHP stack",
+    "type": "project",
+    "license": "MIT",
+    "keywords": ["cms", "slim", "php", "framework"],
+    "authors": [
+        {
+            "name": "Morgo",
+            "homepage": "https://github.com/tonda13/morgo"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "slim/slim": "^4.0",
+        "slim/psr7": "^1.0",
+        "php-di/php-di": "^7.0",
+        "illuminate/database": "^10.0",
+        "monolog/monolog": "^3.0",
+        "psr/log": "^3.0",
+        "symfony/console": "^6.0",
+        "league/flysystem": "^3.0",
+        "league/flysystem-local": "^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0",
+        "squizlabs/php_codesniffer": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Morgo\\": "app/"
+        },
+        "files": [
+            "app/Core/Helpers/hooks.php",
+            "app/Core/Helpers/url.php",
+            "app/Core/Helpers/template.php",
+            "app/Core/Helpers/i18n.php",
+            "app/Core/Helpers/security.php",
+            "app/Core/Helpers/assets.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Morgo\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "cs": "phpcs --standard=PSR12 app/",
+        "cs-fix": "phpcbf --standard=PSR12 app/"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "extra": {
+        "morgocms-plugins": []
+    }
+}
